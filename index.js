@@ -134,8 +134,6 @@ app.post("/login", (req, res) => {
     });
 });
 
-
-
 app.put("/user", async (req, res) => {
   console.log(req.body);
 
@@ -216,6 +214,57 @@ app.put("/user", async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Une erreur est survenue lors de la modification du compte.",
+    });
+  }
+});
+
+app.delete("/user", async (req, res) => {
+  const jwtToken = req.headers.authorization;
+
+  if (!jwtToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Vous devez être connecté pour effectuer cette action.",
+    });
+  }
+
+  try {
+    jwt.verify(jwtToken.split(" ")[1], process.env.JWT_SECRET);
+  } catch (error) {
+    console.error("Erreur lors de la vérification du token:", error);
+    return res.status(401).json({
+      success: false,
+      message: "Vous devez être connecté pour effectuer cette action.",
+    });
+  }
+
+  try {
+    let user = await base("users")
+      .select({
+        filterByFormula: `{email} = "${
+          jwt.decode(jwtToken.split(" ")[1]).user.email
+        }"`,
+      })
+      .all();
+
+    if (user.length === 0) {
+      return res.status(409).json({
+        success: false,
+        message: "Aucun compte trouvé.",
+      });
+    }
+
+    await base("users").destroy([user[0].id]);
+
+    res.status(200).json({
+      success: true,
+      message: "Compte supprimé avec succès.",
+    });
+  } catch (error) {
+    console.error("Erreur lors de la suppression du compte:", error);
+    res.status(500).json({
+      success: false,
+      message: "Une erreur est survenue lors de la suppression du compte.",
     });
   }
 });
