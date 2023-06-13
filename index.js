@@ -198,6 +198,8 @@ app.put("/user", async (req, res) => {
       })
       .all();
 
+    delete user[0].fields.password;
+
     res.status(200).json({
       success: true,
       message: "Compte modifié avec succès.",
