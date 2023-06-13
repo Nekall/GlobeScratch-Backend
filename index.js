@@ -203,7 +203,7 @@ app.put("/user", async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Compte modifié avec succès.",
-      user: user[0],
+      user: user[0].fields,
     });
   } catch (error) {
     console.error("Erreur lors de la modification du compte:", error);
