@@ -174,18 +174,20 @@ app.put("/user", async (req, res) => {
       {
         id: user[0].id,
         fields: {
-          email: req.body.email ? req.body.email : user[0].email,
+          email: req.body.email ? req.body.email : user[0].fields.email,
           password: req.body.password
             ? await bcrypt.hash(req.body.password, saltRounds)
-            : user[0].password,
+            : user[0].fields.password,
           firstname: req.body.firstname
             ? req.body.firstname
-            : user[0].firstname,
-          lastname: req.body.lastname ? req.body.lastname : user[0].lastname,
-          country: req.body.country ? req.body.country : user[0].country,
+            : user[0].fields.firstname,
+          lastname: req.body.lastname
+            ? req.body.lastname
+            : user[0].fields.lastname,
+          country: req.body.country ? req.body.country : user[0].fields.country,
           franceDpt: req.body.franceDpt
             ? req.body.franceDpt
-            : user[0].franceDpt,
+            : user[0].fields.franceDpt,
         },
       },
     ]);
