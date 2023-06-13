@@ -81,7 +81,7 @@ app.post("/login", (req, res) => {
       message: "Veuillez remplir tous les champs requis.",
     });
 
-  let user = base("users")
+  base("users")
     .select({
       filterByFormula: `{email} = "${email}"`,
     })
@@ -133,6 +133,8 @@ app.post("/login", (req, res) => {
       });
     });
 });
+
+
 
 app.put("/user", async (req, res) => {
   const jwtToken = req.headers.authorization;
