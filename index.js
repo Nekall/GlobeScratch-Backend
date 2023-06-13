@@ -190,9 +190,18 @@ app.put("/user", async (req, res) => {
       },
     ]);
 
+    user = await base("users")
+      .select({
+        filterByFormula: `{email} = "${
+          jwt.decode(jwtToken.split(" ")[1]).user.email
+        }"`,
+      })
+      .all();
+
     res.status(200).json({
       success: true,
       message: "Compte modifié avec succès.",
+      user: user[0],
     });
   } catch (error) {
     console.error("Erreur lors de la modification du compte:", error);
