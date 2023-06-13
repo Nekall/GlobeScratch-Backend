@@ -155,7 +155,7 @@ app.put("/user", async (req, res) => {
   }
 
   try {
-    const user = await base("users")
+    let user = await base("users")
       .select({
         filterByFormula: `{email} = "${
           jwt.decode(jwtToken.split(" ")[1]).user.email
