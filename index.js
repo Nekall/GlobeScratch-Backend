@@ -137,6 +137,8 @@ app.post("/login", (req, res) => {
 
 
 app.put("/user", async (req, res) => {
+  console.log(req.body);
+
   const jwtToken = req.headers.authorization;
 
   if (!jwtToken) {
