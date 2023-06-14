@@ -55,6 +55,7 @@ app.post("/signup", async (req, res) => {
           lastname,
           country,
           franceDpt: "[]",
+          countries: "[]",
         },
       },
     ]);
