@@ -190,6 +190,7 @@ app.put("/user", async (req, res) => {
           franceDpt: req.body.franceDpt
             ? req.body.franceDpt
             : user[0].fields.franceDpt,
+          countries: req.body.countries ? req.body.countries : user[0].fields.countries,
         },
       },
     ]);
